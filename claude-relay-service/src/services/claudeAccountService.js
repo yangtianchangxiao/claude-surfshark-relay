@@ -230,7 +230,13 @@ class ClaudeAccountService {
             Origin: 'https://claude.ai'
           },
           httpsAgent: agent,
-          timeout: 30000
+          // Use system proxy environment variables if no custom agent
+          proxy: agent ? false : undefined,
+          timeout: 30000,
+          maxRedirects: 5,
+          validateStatus(status) {
+            return status >= 200 && status < 400 // Accept 2xx and 3xx status codes
+          }
         }
       )
 
@@ -862,16 +868,41 @@ class ClaudeAccountService {
 
   // 🌐 创建代理agent（使用统一的代理工具）
   _createProxyAgent(proxyConfig) {
-    const proxyAgent = ProxyHelper.createProxyAgent(proxyConfig)
-    if (proxyAgent) {
+    let proxyAgent = ProxyHelper.createProxyAgent(proxyConfig)
+    
+    // If no custom proxy agent and system proxy environment variables exist, use them
+    if (!proxyAgent && (process.env.HTTP_PROXY || process.env.HTTPS_PROXY)) {
+      const proxyUrl = process.env.HTTPS_PROXY || process.env.HTTP_PROXY
+      try {
+        const url = new URL(proxyUrl)
+        const systemProxyConfig = {
+          type: url.protocol.replace(':', ''),
+          host: url.hostname,
+          port: parseInt(url.port) || (url.protocol === 'https:' ? 443 : 80),
+          username: url.username || undefined,
+          password: url.password || undefined
+        }
+        const systemAgent = ProxyHelper.createProxyAgent(systemProxyConfig)
+        if (systemAgent) {
+          proxyAgent = systemAgent
+          logger.info(
+            '🌐 Using system proxy for Claude token refresh:',
+            `${systemProxyConfig.type}://${systemProxyConfig.host}:${systemProxyConfig.port}`
+          )
+        }
+      } catch (err) {
+        logger.error('❌ Failed to parse system proxy URL:', proxyUrl, err.message)
+      }
+    } else if (proxyAgent) {
       logger.info(
-        `🌐 Using proxy for Claude request: ${ProxyHelper.getProxyDescription(proxyConfig)}`
+        `🌐 Using custom proxy for Claude request: ${ProxyHelper.getProxyDescription(proxyConfig)}`
       )
-    } else if (proxyConfig) {
-      logger.debug('🌐 Failed to create proxy agent for Claude')
-    } else {
+    }
+    
+    if (!proxyAgent) {
       logger.debug('🌐 No proxy configured for Claude request')
     }
+    
     return proxyAgent
   }
 
@@ -1398,7 +1429,13 @@ class ClaudeAccountService {
           'Accept-Language': 'en-US,en;q=0.9'
         },
         httpsAgent: agent,
-        timeout: 15000
+        // Use system proxy environment variables if no custom agent
+        proxy: agent ? false : undefined,
+        timeout: 15000,
+        maxRedirects: 5,
+        validateStatus(status) {
+          return status >= 200 && status < 400 // Accept 2xx and 3xx status codes
+        }
       })
 
       if (response.status === 200 && response.data) {
