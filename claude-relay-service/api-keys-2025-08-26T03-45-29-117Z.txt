@@ -1,0 +1,48 @@
+名称: test
+API Key: cr_ca007e8059d8fa0b83879f4cfb5a635894df0c76f8a67dc8309d712d41ea6223
+权限: claude
+状态: ✅ 活跃
+描述: 
+---
+
+名称: 3090arclab
+API Key: cr_1dcc0c15b95a4bfb517eb338a0adcb51e22657bd938195bd794a00e15bf826d0
+权限: all
+状态: ✅ 活跃
+描述: 
+---
+
+名称: test2
+API Key: cr_62a574ef43940e8fa75e37d41816fbe4484123b3d31fc4d4120d012380786113
+权限: all
+状态: ✅ 活跃
+描述: 
+---
+
+名称: test-key-final
+API Key: cr_60c1e2e0a53fe4bc500f8f85f55dd958589da762c40391106c9cd3c0240d1063
+权限: all
+状态: ✅ 活跃
+描述: 
+---
+
+名称: testforclaude
+API Key: cr_d7a4dd1e0fa2010a0eb83c31e384120f3509066b451b94cbced45577147398a7
+权限: all
+状态: ✅ 活跃
+描述: 
+---
+
+名称: mingyang
+API Key: cr_a013feec1525c451c8a10b443c8f22014912c786b8a085419450b0717567ce77
+权限: all
+状态: ✅ 活跃
+描述: 
+---
+
+名称: xuanjun
+API Key: cr_aa54edbae48b4ce08c1f6944866a556c145b11ed5d21210b97c9c1c266e03d27
+权限: all
+状态: ✅ 活跃
+描述: 
+---
