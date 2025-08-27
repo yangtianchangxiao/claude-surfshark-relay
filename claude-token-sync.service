@@ -1,0 +1,17 @@
+[Unit]
+Description=Claude Token Auto Sync Service
+After=network.target redis.service
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/claude-surfshark-relay/claude-relay-service
+Environment="NODE_ENV=production"
+Environment="HTTPS_PROXY=http://127.0.0.1:18443"
+Environment="HTTP_PROXY=http://127.0.0.1:18443"
+ExecStart=/usr/bin/node /home/ubuntu/claude-surfshark-relay/claude-relay-service/auto-sync-token.js
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
