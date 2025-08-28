@@ -39,6 +39,7 @@ Thumbs.db
 
 # Sensitive config files
 init.json
+init.json.backup.*
 config/config.js
 *.conf
 *.key
