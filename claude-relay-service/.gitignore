@@ -38,8 +38,8 @@ Thumbs.db
 *~
 
 # Sensitive config files
-init.json
-init.json.backup.*
+# init.json  # Commented out for private repo
+# init.json.backup.*  # Commented out for private repo
 config/config.js
 *.conf
 *.key
